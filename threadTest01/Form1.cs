@@ -476,6 +476,7 @@ namespace threadTest01
             dutFullBdAddressSec = null;
             dutModelNamePri = null;
             dutModelNameSec = null;
+            dutFullVersion = null;
             dutFullVersionPri = null;
             dutFullVersionSec = null;
             dutBatLevel = null;
@@ -705,6 +706,18 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                         {
                             dutFullVersionSec = Convert.ToString((a.Data[13] / 16) * 1000 + (a.Data[13] % 16) * 100 + (a.Data[14] / 16) * 10 + a.Data[14] % 16);
                             CheckFwVersionSec = true;
+                        }
+                    }
+                    else if (a.Data[9] == 0x0A && a.Data[10] == 0x02)
+                    {
+                        if (!CheckFwVersion)
+                        {
+                            dutFullVersion = Convert.ToString(a.Data[12] + "." + Convert.ToString((a.Data[13] / 16) * 10 + a.Data[13] % 16));
+                            CheckFwVersion = true;
+                        }
+                        else
+                        {
+                            CheckFwVersion = false;
                         }
                     }
                     else if (a.Data[9] == 0x0D && flag_check_LRPairing == true)
@@ -1416,6 +1429,9 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
 
             tempString = IniReader.IniReadValue("CONFIG", "MODEL_NAME", pathConfigFile);
             gDutName = tempString;
+
+            tempString = IniReader.IniReadValue("CONFIG", "FW_VERSION", pathConfigFile);
+            gSwVersion = tempString;
             
             tempString = IniReader.IniReadValue("CONFIG", "MANUFACTURE_DATE", pathConfigFile);
             gManufactureDate = tempString;
