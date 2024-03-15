@@ -158,7 +158,6 @@ namespace threadTest01
         static public string dutFullBdAddressPri;
         static public string dutFullBdAddressSec;
 
-        static public byte batLevel;
         static public byte batLevelPri;
         static public byte batLevelSec;
 #endif
@@ -177,7 +176,6 @@ namespace threadTest01
         static public string dutFwColorSec;
         static public string dutAncWritePri;
         static public string dutAncWriteSec;
-        static public string dutBatLevel;
         static public string dutBatLevelPri;
         static public string dutBatLevelSec;
         static public string dutCheckPaired;
@@ -478,7 +476,6 @@ namespace threadTest01
             dutModelNameSec = null;
             dutFullVersionPri = null;
             dutFullVersionSec = null;
-            dutBatLevel = null;
             dutBatLevelPri = null;
             dutBatLevelSec = null;
             dutCheckColorPri = null;
@@ -916,23 +913,17 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                         }
                     }
 #endif
-                    else if (a.Data[5] == 0x5D && a.Data[8] == 0xD6 && a.Data[9] == 0x0C && a.Data[10] == 0x00) // check battery level
+                    else if (a.Data[9] == 0x00 && a.Data[10] == 0x05) // check battery level
                     {
                         if (!CheckBatLevel)
                         {
-                            batLevel = a.Data[12];
-                            //batLevelPri = a.Data[11];
-                            //batLevelSec = a.Data[12];
+                            batLevelPri = a.Data[11];
+                            batLevelSec = a.Data[12];
 
-                            dutBatLevel = batLevel.ToString();
-                            //dutBatLevelPri = batLevelPri.ToString();
-                            //dutBatLevelSec = batLevelSec.ToString();
+                            dutBatLevelPri = batLevelPri.ToString();
+                            dutBatLevelSec = batLevelSec.ToString();
 
                             CheckBatLevel = true;
-                        }
-                        else
-                        {
-                            CheckBatLevel = false;
                         }
                     }
                     else if (a.Data[9] == 0x00 && a.Data[10] == 0x07 && flag_CheckDefaultBDPri)
@@ -2310,7 +2301,6 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
         string tempUap;
         string tempLap;
 
-        byte tempBat;
         byte tempBatPri;
         byte tempBatSec;
 
@@ -2648,9 +2638,9 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
             else { return true; }
         }
 
-        private bool checkBatLevel(byte batlevel)
+        private bool checkBatLevel(byte batpri, byte batsec)
         {            
-            if (batlevel < Form1.gBatPassLevel) { return false; }
+            if (batpri < Form1.gBatPassLevel || batsec < Form1.gBatPassLevel) { return false; }
             else { return true; }
         }
         private bool checkBD(string bd)
@@ -3746,15 +3736,14 @@ END
                 flag_ng = 1;
             }
             finally
-            {
-                tempBat = Form1.batLevel;
-                //tempBatPri = Form1.batLevelPri;
-                //tempBatSec = Form1.batLevelSec;
+            {                
+                tempBatPri = Form1.batLevelPri;
+                tempBatSec = Form1.batLevelSec;                
 
                 // set test value (nothing)
-                mainForm.gTestValue[index] = Convert.ToString(Form1.batLevel);
+                mainForm.gTestValue[index] = "Pri : " + Convert.ToString(Form1.batLevelPri) + " / " + "Sec : " + Convert.ToString(Form1.batLevelSec);
 
-                if (!checkBatLevel(tempBat) ){ flag_ng = 1; }
+                if (!checkBatLevel(tempBatPri, tempBatSec) ){ flag_ng = 1; }
             }
 
             if (flag_ng == 1)
@@ -4016,7 +4005,7 @@ END
 
                 byte a = 0;
                 byte[] data = new byte[50];
-                byte[] cmdData = new byte[] { 0x05, 0x5A, 0x06, 0x00, 0x00, 0x0A, 0x01, 0xF5, 0x01, 0x00 };
+                byte[] cmdData = new byte[] { 0x05, 0x5A, 0x03, 0x00, 0x01, 0x00, 0x04 };
 
                 data[0] = 0x02;
                 data[1] = 0x0b;
