@@ -3,7 +3,7 @@
 // Default CMD : 05 5A 03 00 01 00 10
 // RELAY CMD : 05 5A 0B 00 01 0D 05 06 05 5A 03 00 01 00 10
 ///////////////////////////////////////////////////////////////////////////////////////
-// Dongle fw : ATH-CC500BT_BDCHECK_DONGLE_FW (Made in 23.07.17)
+// Dongle fw : ATH-CC500BT_BDCHECK_DONGLE_FW (The time created is 23.07.17.)
 ///////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -89,11 +89,14 @@ namespace threadTest01
         public static bool CheckFwVersion = false;
         public static bool CheckFwVersionPri = false;
         public static bool CheckFwVersionSec = false;
+        public static bool CheckIgVersion = false;
         public static bool CheckAncWritePri = false;
         public static bool CheckAncWriteSec = false;
         public static bool CheckFwRegion = false;
         public static bool WriteFwColorPri = false;
         public static bool WriteFwColorSec = false;
+        public static bool WriteUserMode = false;
+        public static bool CheckUserMode = false;
         public static bool CheckFwColorPri = false;
         public static bool CheckFwColorSec = false;
         public static bool CheckFactoryReset = false;
@@ -105,6 +108,10 @@ namespace threadTest01
         public static bool flag_CheckDefaultBDPri = false;
         public static bool flag_CheckDefaultBDSec = false;
         public static bool flag_check_LRPairing = false;
+        public static bool flag_CheckIgVersion = false;
+        public static bool flag_CheckFactoryReset = false;
+        public static bool flag_WriteUserMode = false;
+        public static bool flag_CheckUserMode = false;
 
 
         static public int AncWriteCheckDataPri;
@@ -173,6 +180,9 @@ namespace threadTest01
         static public string dutFullVersion;
         static public string dutFullVersionPri;
         static public string dutFullVersionSec;
+        static public string dutWriteMode;
+        static public string dutCheckMode;
+        static public string dutIGVersion;
         static public string dutFwColorPri;
         static public string dutFwColorSec;
         static public string dutAncWritePri;
@@ -192,6 +202,7 @@ namespace threadTest01
 #endif
         static public string gDutName;
         static public string gSwVersion;
+        static public string gIgVersion;
         static public string gManufactureDate;
 
         static public string gDefaultBd;
@@ -459,6 +470,7 @@ namespace threadTest01
             CheckFwVersion = false;
             CheckFwVersionPri = false;
             CheckFwVersionSec = false;
+            CheckIgVersion = false;
             CheckAncWritePri = false;
             CheckAncWriteSec = false;
             CheckShippingPoweroffPri = false;
@@ -479,6 +491,9 @@ namespace threadTest01
             dutFullVersion = null;
             dutFullVersionPri = null;
             dutFullVersionSec = null;
+            dutWriteMode = null;
+            dutCheckMode = null;
+            dutIGVersion = null;
             dutBatLevel = null;
             dutBatLevelPri = null;
             dutBatLevelSec = null;
@@ -708,6 +723,60 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                             CheckFwVersionSec = true;
                         }
                     }
+                    else if (a.Data[8] == 0x01 && a.Data[9] == 0x0A && flag_WriteUserMode == true) // Write User Mode
+                    {
+                        if (a.Data[10] == 0x00)
+                        {
+                            WriteUserMode = true;
+                            dutWriteMode = "0";
+                            flag_WriteUserMode = false;
+                        }
+                        else if (a.Data[10] == 0x01)
+                        {
+                            WriteUserMode = false;
+                            dutWriteMode = "1";
+                            flag_WriteUserMode = false;
+                        }
+                        else if (a.Data[10] == 0x02)
+                        {
+                            WriteUserMode = false;
+                            dutWriteMode = "2";
+                            flag_WriteUserMode = false;
+                        }
+                        else
+                        {
+                            WriteUserMode = false;
+                            dutWriteMode = "99";
+                            flag_WriteUserMode = false;
+                        }                        
+                    }
+                    else if (a.Data[9] == 0x0A && a.Data[10] == 0X01 && flag_CheckUserMode == true)
+                    {
+                        if (a.Data[12] == 0x00)
+                        {
+                            CheckUserMode = true;
+                            dutCheckMode = "0";
+                            flag_CheckUserMode = false;
+                        }
+                        else if (a.Data[12] == 0x01)
+                        {
+                            CheckUserMode = false;
+                            dutCheckMode = "1";
+                            flag_CheckUserMode = false;
+                        }
+                        else if (a.Data[12] == 0x02)
+                        {
+                            CheckUserMode = false;
+                            dutCheckMode = "2";
+                            flag_CheckUserMode = false;
+                        }
+                        else
+                        {
+                            CheckUserMode = false;
+                            dutCheckMode = "99";
+                            flag_CheckUserMode = false;
+                        }
+                    }
                     else if (a.Data[9] == 0x0A && a.Data[10] == 0x02)
                     {
                         if (!CheckFwVersion)
@@ -718,6 +787,35 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                         else
                         {
                             CheckFwVersion = false;
+                        }
+                    }
+                    else if (a.Data[8] == 0x01 && a.Data[9] == 0x11 && flag_CheckFactoryReset == true)
+                    {
+                        if(!CheckFactoryReset)
+                        {
+                            CheckFactoryReset = true;
+                            flag_CheckFactoryReset = false;
+                        }
+                        else
+                        {
+                            flag_CheckFactoryReset = false;
+                            CheckFactoryReset = false;
+                        }
+
+                    }
+                    else if (a.Data[9] == 0x0A && a.Data[10] == 0x04 && flag_CheckIgVersion == true)
+                    {
+                        if(!CheckIgVersion)
+                        {
+                            dutIGVersion = (a.Data[12].ToString("X") + "" + a.Data[13].ToString("X") + "" + a.Data[14].ToString("X") + "" + a.Data[15].ToString("X"));
+                            
+                            CheckIgVersion = true;
+                            Form1.flag_CheckIgVersion = false;
+                        }
+                        else
+                        {
+                            CheckIgVersion = false;
+                            Form1.flag_CheckIgVersion = false;
                         }
                     }
                     else if (a.Data[9] == 0x0D && flag_check_LRPairing == true)
@@ -1432,7 +1530,10 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
 
             tempString = IniReader.IniReadValue("CONFIG", "FW_VERSION", pathConfigFile);
             gSwVersion = tempString;
-            
+
+            tempString = IniReader.IniReadValue("CONFIG", "IG_VERSION", pathConfigFile);
+            gIgVersion = tempString;
+
             tempString = IniReader.IniReadValue("CONFIG", "MANUFACTURE_DATE", pathConfigFile);
             gManufactureDate = tempString;
 
@@ -1552,6 +1653,11 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                     string[] rowInfo = { j.ToString(), gtestSequence[j], gSwVersion, "-", "-" };
                     dataGridView1.Rows.Add(rowInfo);
                 }
+                else if (gtestSequence[j] == "CHECK_IG_VERSION")
+                {
+                    string[] rowInfo = { j.ToString(), gtestSequence[j], gIgVersion, "-", "-" };
+                    dataGridView1.Rows.Add(rowInfo);
+                }
                 else if (gtestSequence[j] == "CHECK_ANC_WRITE_PRI")
                 {
                     string[] rowInfo = { j.ToString(), gtestSequence[j], "-", "-", "-" };
@@ -1570,6 +1676,11 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                 else if (gtestSequence[j] == "CHECK_BD_DEFAULT_SEC")
                 {
                     string[] rowInfo = { j.ToString(), gtestSequence[j], gDefaultBd, "-", "-" };
+                    dataGridView1.Rows.Add(rowInfo);
+                }
+                else if (gtestSequence[j] == "CHECK_BD_RANGE")
+                {
+                    string[] rowInfo = { j.ToString(), gtestSequence[j], String.Format("{0} ~ {1}", gBdLapStart, gBdLapEnd), "-", "-" };
                     dataGridView1.Rows.Add(rowInfo);
                 }
                 else if (gtestSequence[j] == "CHECK_BD_RANGE_PRI")
@@ -2690,7 +2801,11 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
             if (swVersion == Form1.gSwVersion) { return true; }
             else { return false; }
         }
-
+        private bool checkIgVer(string igVersion)
+        {
+            if (igVersion == Form1.gIgVersion) { return true; }
+            else { return false; }
+        }
         private bool procTestSequence(string seqName, int index)
         {
 #if false // sequence list
@@ -2727,6 +2842,7 @@ END
             else if (seqName == "CHECK_FW_VERSION") { retVal = procTestCheckFwVersion(index); }
             else if (seqName == "CHECK_FW_VERSION_PRI") { retVal = procTestCheckFwVersionPri(index); }
             else if (seqName == "CHECK_FW_VERSION_SEC") { retVal = procTestCheckFwVersionSec(index); }
+            else if (seqName == "CHECK_IG_VERSION") { retVal = procTestCheckIgVersion(index); }
             else if (seqName == "CHECK_ANC_WRITE_PRI") { retVal = procTestCheckAncWritePri(index);}
             else if (seqName == "CHECK_ANC_WRITE_SEC") { retVal = procTestCheckAncWriteSec(index); }
             else if (seqName == "WRITE_NFC") { retVal = procTestWriteNfc(index); }
@@ -2741,6 +2857,8 @@ END
             else if (seqName == "CHECK_COLOR_PRI") { retVal = procTestCheckColorPri(index); }
             else if (seqName == "CHECK_COLOR_SEC") { retVal = procTestCheckColorSec(index); }
             else if (seqName == "CHECK_AVA_DEST") { retVal = procTestCheckAvaDest(index); }
+            else if (seqName == "WRITE_USERMODE") { retVal = procTestWriteUsermode(index); }
+            else if (seqName == "CHECK_USERMODE") { retVal = procTestCheckUsermode(index); }            
 
             return retVal;
         }
@@ -2752,12 +2870,12 @@ END
             try
             {
                 // split bd string
-                tempNap = Form1.dutBdNapPri;
-                tempUap = Form1.dutBdUapPri;
-                tempLap = Form1.dutBdLapPri;
+                tempNap = Form1.dutBdNap;
+                tempUap = Form1.dutBdUap;
+                tempLap = Form1.dutBdLap;
 
                 // set test value (nothing)
-                mainForm.gTestValue[index] = Form1.dutFullBdAddressPri;
+                mainForm.gTestValue[index] = Form1.dutFullBdAddress;
             }
             catch
             {
@@ -2767,12 +2885,12 @@ END
             {
 
                 // split bd string
-                tempNap = Form1.dutBdNapPri;
-                tempUap = Form1.dutBdUapPri;
-                tempLap = Form1.dutBdLapPri;
+                tempNap = Form1.dutBdNap;
+                tempUap = Form1.dutBdUap;
+                tempLap = Form1.dutBdLap;
 
                 // set test value (nothing)
-                mainForm.gTestValue[index] = Form1.dutFullBdAddressPri;
+                mainForm.gTestValue[index] = Form1.dutFullBdAddress;
 
                 if (!validateBd(tempNap, tempUap, tempLap, "check_range")) { flag_ng = 1; }
             }
@@ -3191,6 +3309,8 @@ END
 
         private bool procTestCheckFactoryReset(int index) // check factory reset
         {
+            Form1.flag_CheckFactoryReset = true;
+
             int flag_ng = 0;
             int Count = 20;
 
@@ -3199,7 +3319,8 @@ END
                 Form1.dev.StartAsyncRead();
 
                 byte[] data = new byte[50];
-                byte[] cmdData = new byte[] { 0x05, 0x5A, 0x03, 0x00, 0x01, 0x00, 0x09 };
+                //byte[] cmdData = new byte[] { 0x05, 0x5A, 0x03, 0x00, 0x01, 0x00, 0x09 };
+                byte[] cmdData = new byte[] { 0x05, 0x5A, 0x04, 0x00, 0x01, 0x11, 0x95, 0x00 }; // Using ATH-CC500BT2 
 
                 data[0] = 0x02;
                 data[1] = 0x0b;
@@ -3272,8 +3393,8 @@ END
             }
             finally
             {
-                if (mainForm.findDupeData(Form1.dutFullBdAddressPri + " / " + Form1.dutFullBdAddressSec)) { flag_ng = 1; }
-                else if (mainForm.findDupeData(Form1.dutFullBdAddressSec + " / " + Form1.dutFullBdAddressPri)) { flag_ng = 1; }
+                if (mainForm.findDupeData(Form1.dutFullBdAddress)) { flag_ng = 1; }
+                else if (mainForm.findDupeData(Form1.dutFullBdAddress)) { flag_ng = 1; }
             }
 
             if (flag_ng == 1)
@@ -4019,12 +4140,185 @@ END
                 return true;
             }
         }
-        private bool procTestCheckFwVersion(int index) // check fw version
+        private bool procTestWriteUsermode(int index)
         {
-            //Thread.Sleep(5000);
+            Form1.flag_WriteUserMode = true;
 
             int flag_ng = 0;
             int Count = 20;
+
+            try
+            {
+                Form1.dev.StartAsyncRead();
+
+                byte a = 0;
+                byte[] data = new byte[50];
+                byte[] cmdData = new byte[] { 0x05, 0x5A, 0x05, 0x00, 0x01, 0x0A, 0x00, 0xF5, 0x00 };
+
+                data[0] = 0x02;
+                data[1] = 0x0b;
+                data[2] = Form1.USB_HOST_DATA_CMD_SEND_AIROHA_RACE_CMD;
+                data[3] = (byte)Buffer.ByteLength(cmdData);
+                Buffer.BlockCopy(cmdData, 0, data, 4, Buffer.ByteLength(cmdData));
+                Form1.dev.Write(data);
+
+                while (Count > 0)
+                {
+                    mainForm.ShowProgressIndicator(index, true);
+
+                    Form1.dev.StartAsyncRead();
+                    Thread.Sleep(500);
+                    Count--;
+
+                    if (Form1.WriteUserMode)
+                    {
+                        Console.WriteLine("Write User Mode");
+                        break;
+                    }
+                }
+            }
+            //catch (System.Exception ex)
+            catch
+            {
+                flag_ng = 1;
+            }
+            finally
+            {
+                if (Count == 0 || !Form1.WriteUserMode)
+                {
+                    flag_ng = 1;
+                }
+
+                if (flag_ng != 1)
+                {
+                    if(Form1.dutWriteMode == "0")
+                    {
+                        mainForm.gTestValue[index] = "USER MODE";
+                    }
+                    else if (Form1.dutWriteMode == "1")
+                    {
+                        mainForm.gTestValue[index] = "TEST MODE";
+                        flag_ng = 1;
+                    }
+                    else if (Form1.dutWriteMode == "2")
+                    {
+                        mainForm.gTestValue[index] = "IG MODE";
+                        flag_ng = 1;
+                    }
+                    else
+                    {
+                        mainForm.gTestValue[index] = "NG";
+                        flag_ng = 1;
+                    }             
+                }
+            }
+
+            mainForm.ShowProgressIndicator(index, false);
+
+            if (flag_ng == 1)
+            {
+                mainForm.gNgType[index] = "Write User Mode Fail";
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool procTestCheckUsermode(int index)
+        {
+            Form1.flag_CheckUserMode = true;
+
+            int flag_ng = 0;
+            int Count = 20;
+
+            try
+            {
+                Form1.dev.StartAsyncRead();
+
+                byte a = 0;
+                byte[] data = new byte[50];
+                byte[] cmdData = new byte[] { 0x05, 0x5A, 0x06, 0x00, 0x00, 0x0A, 0x00, 0xF5, 0x01, 0x00 };
+
+                data[0] = 0x02;
+                data[1] = 0x0b;
+                data[2] = Form1.USB_HOST_DATA_CMD_SEND_AIROHA_RACE_CMD;
+                data[3] = (byte)Buffer.ByteLength(cmdData);
+                Buffer.BlockCopy(cmdData, 0, data, 4, Buffer.ByteLength(cmdData));
+                Form1.dev.Write(data);
+
+                while (Count > 0)
+                {
+                    mainForm.ShowProgressIndicator(index, true);
+
+                    Form1.dev.StartAsyncRead();
+                    Thread.Sleep(500);
+                    Count--;
+
+                    if (Form1.CheckUserMode)
+                    {
+                        Console.WriteLine("Check User Mode");
+                        break;
+                    }
+                }
+            }
+            //catch (System.Exception ex)
+            catch
+            {
+                flag_ng = 1;
+            }
+            finally
+            {
+                if (Count == 0 || !Form1.CheckUserMode)
+                {
+                    flag_ng = 1;
+                }
+
+                if (flag_ng != 1)
+                {
+                    if (Form1.dutCheckMode == "0")
+                    {
+                        mainForm.gTestValue[index] = "USER MODE";
+                    }
+                    else if (Form1.dutCheckMode == "1")
+                    {
+                        mainForm.gTestValue[index] = "TEST MODE";
+                        flag_ng = 1;
+                    }
+                    else if (Form1.dutCheckMode == "2")
+                    {
+                        mainForm.gTestValue[index] = "IG MODE";
+                        flag_ng = 1;
+                    }
+                    else
+                    {
+                        mainForm.gTestValue[index] = "NG";
+                        flag_ng = 1;
+                    }
+                }
+            }
+
+            mainForm.ShowProgressIndicator(index, false);
+
+            if (flag_ng == 1)
+            {
+                mainForm.gNgType[index] = "Check User Mode Fail";
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+
+        }
+
+        private bool procTestCheckFwVersion(int index) // check fw version
+        {            
+            int flag_ng = 0;
+            int Count = 20;
+
+            Form1.flag_CheckUserMode = true;
 
             try
             {
@@ -4051,7 +4345,7 @@ END
 
                     if (Form1.CheckFwVersion)
                     {
-                        Console.WriteLine("CheckFwVersion");
+                        Console.WriteLine("CheckIgVersion");
                         break;
                     }
                 }
@@ -4087,6 +4381,75 @@ END
                 return true;
             }
         }
+        private bool procTestCheckIgVersion(int index)
+        {
+            Form1.flag_CheckIgVersion = true;
+
+            int flag_ng = 0;
+            int Count = 20;
+
+            try
+            {
+                Form1.dev.StartAsyncRead();
+
+                byte a = 0;
+                byte[] data = new byte[50];
+                byte[] cmdData = new byte[] { 0x05, 0x5A, 0x06, 0x00, 0x00, 0x0A, 0x02, 0xF5, 0x01, 0x00 };
+
+                data[0] = 0x02;
+                data[1] = 0x0b;
+                data[2] = Form1.USB_HOST_DATA_CMD_SEND_AIROHA_RACE_CMD;
+                data[3] = (byte)Buffer.ByteLength(cmdData);
+                Buffer.BlockCopy(cmdData, 0, data, 4, Buffer.ByteLength(cmdData));
+                Form1.dev.Write(data);
+
+                while (Count > 0)
+                {
+                    mainForm.ShowProgressIndicator(index, true);
+
+                    Form1.dev.StartAsyncRead();
+                    Thread.Sleep(500);
+                    Count--;
+
+                    if (Form1.CheckIgVersion)
+                    {
+                        Console.WriteLine("CheckIgVersion");
+                        break;
+                    }
+                }
+            }
+            //catch (System.Exception ex)
+            catch
+            {
+                flag_ng = 1;
+            }
+            finally
+            {
+                if (Count == 0 || !Form1.CheckIgVersion)
+                {
+                    flag_ng = 1;
+                }
+
+                if (flag_ng != 1)
+                {
+                    mainForm.gTestValue[index] = Form1.dutIGVersion;
+                    if (!checkIgVer(Form1.dutIGVersion)) { flag_ng = 1; }
+                }
+            }
+
+            mainForm.ShowProgressIndicator(index, false);
+
+            if (flag_ng == 1)
+            {
+                mainForm.gNgType[index] = "IG Version fail!";
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         private bool procTestCheckFwVersionPri(int index) // check fw version
         {
             //Thread.Sleep(5000);

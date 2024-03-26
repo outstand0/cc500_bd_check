@@ -229,6 +229,7 @@
             this.btnConnect.TabIndex = 10;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Visible = false;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // tbResultConnect
@@ -237,6 +238,7 @@
             this.tbResultConnect.Name = "tbResultConnect";
             this.tbResultConnect.Size = new System.Drawing.Size(100, 21);
             this.tbResultConnect.TabIndex = 11;
+            this.tbResultConnect.Visible = false;
             // 
             // btnDisconnect
             // 
@@ -246,6 +248,7 @@
             this.btnDisconnect.TabIndex = 12;
             this.btnDisconnect.Text = "Disconnect";
             this.btnDisconnect.UseVisualStyleBackColor = true;
+            this.btnDisconnect.Visible = false;
             this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
             // 
             // textBox1
@@ -254,6 +257,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 21);
             this.textBox1.TabIndex = 13;
+            this.textBox1.Visible = false;
             // 
             // btnEnableAiroThrough
             // 
@@ -263,6 +267,7 @@
             this.btnEnableAiroThrough.TabIndex = 14;
             this.btnEnableAiroThrough.Text = "Enable AT";
             this.btnEnableAiroThrough.UseVisualStyleBackColor = true;
+            this.btnEnableAiroThrough.Visible = false;
             this.btnEnableAiroThrough.Click += new System.EventHandler(this.btnEnableAiroThrough_Click);
             // 
             // btnChangeATOutGain
@@ -273,6 +278,7 @@
             this.btnChangeATOutGain.TabIndex = 15;
             this.btnChangeATOutGain.Text = "AT Out Gain D -10";
             this.btnChangeATOutGain.UseVisualStyleBackColor = true;
+            this.btnChangeATOutGain.Visible = false;
             this.btnChangeATOutGain.Click += new System.EventHandler(this.btnChangeATOutGain_Click);
             // 
             // btnClaim
@@ -283,6 +289,7 @@
             this.btnClaim.TabIndex = 16;
             this.btnClaim.Text = "Claim?";
             this.btnClaim.UseVisualStyleBackColor = true;
+            this.btnClaim.Visible = false;
             this.btnClaim.Click += new System.EventHandler(this.btnClaim_Click);
             // 
             // btnChangeATOutGain2
@@ -293,6 +300,7 @@
             this.btnChangeATOutGain2.TabIndex = 17;
             this.btnChangeATOutGain2.Text = "AT Out Gain D 10";
             this.btnChangeATOutGain2.UseVisualStyleBackColor = true;
+            this.btnChangeATOutGain2.Visible = false;
             this.btnChangeATOutGain2.Click += new System.EventHandler(this.btnChangeATOutGain2_Click);
             // 
             // btnRoleChange
@@ -303,6 +311,7 @@
             this.btnRoleChange.TabIndex = 18;
             this.btnRoleChange.Text = "Role Change";
             this.btnRoleChange.UseVisualStyleBackColor = true;
+            this.btnRoleChange.Visible = false;
             this.btnRoleChange.Click += new System.EventHandler(this.btnRoleChange_Click);
             // 
             // btnGetAEInfo
@@ -313,6 +322,7 @@
             this.btnGetAEInfo.TabIndex = 19;
             this.btnGetAEInfo.Text = "Get AE Info";
             this.btnGetAEInfo.UseVisualStyleBackColor = true;
+            this.btnGetAEInfo.Visible = false;
             this.btnGetAEInfo.Click += new System.EventHandler(this.btnGetAEInfo_Click);
             // 
             // btnGetAgentBattery
@@ -323,6 +333,7 @@
             this.btnGetAgentBattery.TabIndex = 20;
             this.btnGetAgentBattery.Text = "Agent Battery";
             this.btnGetAgentBattery.UseVisualStyleBackColor = true;
+            this.btnGetAgentBattery.Visible = false;
             this.btnGetAgentBattery.Click += new System.EventHandler(this.btnGetAgentBattery_Click);
             // 
             // btnGetPartnerBattery
@@ -333,6 +344,7 @@
             this.btnGetPartnerBattery.TabIndex = 21;
             this.btnGetPartnerBattery.Text = "Partner Battery";
             this.btnGetPartnerBattery.UseVisualStyleBackColor = true;
+            this.btnGetPartnerBattery.Visible = false;
             this.btnGetPartnerBattery.Click += new System.EventHandler(this.btnGetPartnerBattery_Click);
             // 
             // btnGetPartnerAEInfo
@@ -343,6 +355,7 @@
             this.btnGetPartnerAEInfo.TabIndex = 22;
             this.btnGetPartnerAEInfo.Text = "Get Partner AE Info";
             this.btnGetPartnerAEInfo.UseVisualStyleBackColor = true;
+            this.btnGetPartnerAEInfo.Visible = false;
             this.btnGetPartnerAEInfo.Click += new System.EventHandler(this.btnGetPartnerAEInfo_Click);
             // 
             // btnGetAudioChannel
@@ -353,6 +366,7 @@
             this.btnGetAudioChannel.TabIndex = 23;
             this.btnGetAudioChannel.Text = "Get AUD Channel";
             this.btnGetAudioChannel.UseVisualStyleBackColor = true;
+            this.btnGetAudioChannel.Visible = false;
             this.btnGetAudioChannel.Click += new System.EventHandler(this.btnGetAudioChannel_Click);
             // 
             // btnGetPartnerAudioChannel
@@ -363,6 +377,7 @@
             this.btnGetPartnerAudioChannel.TabIndex = 24;
             this.btnGetPartnerAudioChannel.Text = "Get Partner AUD Channel";
             this.btnGetPartnerAudioChannel.UseVisualStyleBackColor = true;
+            this.btnGetPartnerAudioChannel.Visible = false;
             this.btnGetPartnerAudioChannel.Click += new System.EventHandler(this.btnGetPartnerAudioChannel_Click);
             // 
             // btnGetAvaDst
@@ -373,6 +388,7 @@
             this.btnGetAvaDst.TabIndex = 25;
             this.btnGetAvaDst.Text = "Get AVA DST";
             this.btnGetAvaDst.UseVisualStyleBackColor = true;
+            this.btnGetAvaDst.Visible = false;
             this.btnGetAvaDst.Click += new System.EventHandler(this.btnGetAvaDst_Click);
             // 
             // button1
@@ -383,6 +399,7 @@
             this.button1.TabIndex = 23;
             this.button1.Text = "Get VP Lang ID";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.btnGetAudioChannel_Click);
             // 
             // btnGetFWVersion
@@ -393,6 +410,7 @@
             this.btnGetFWVersion.TabIndex = 26;
             this.btnGetFWVersion.Text = "Get FW ver";
             this.btnGetFWVersion.UseVisualStyleBackColor = true;
+            this.btnGetFWVersion.Visible = false;
             this.btnGetFWVersion.Click += new System.EventHandler(this.btnGetFWVersion_Click);
             // 
             // btnGetBDAddr
@@ -403,6 +421,7 @@
             this.btnGetBDAddr.TabIndex = 27;
             this.btnGetBDAddr.Text = "Get BD Addr";
             this.btnGetBDAddr.UseVisualStyleBackColor = true;
+            this.btnGetBDAddr.Visible = false;
             this.btnGetBDAddr.Click += new System.EventHandler(this.btnGetBDAddr_Click);
             // 
             // btnGetFWMode
@@ -413,6 +432,7 @@
             this.btnGetFWMode.TabIndex = 28;
             this.btnGetFWMode.Text = "Get FW Mode";
             this.btnGetFWMode.UseVisualStyleBackColor = true;
+            this.btnGetFWMode.Visible = false;
             this.btnGetFWMode.Click += new System.EventHandler(this.btnGetFWMode_Click);
             // 
             // tbResultFWVersion
@@ -421,6 +441,7 @@
             this.tbResultFWVersion.Name = "tbResultFWVersion";
             this.tbResultFWVersion.Size = new System.Drawing.Size(100, 21);
             this.tbResultFWVersion.TabIndex = 30;
+            this.tbResultFWVersion.Visible = false;
             // 
             // tbResultBDAddr
             // 
@@ -428,6 +449,7 @@
             this.tbResultBDAddr.Name = "tbResultBDAddr";
             this.tbResultBDAddr.Size = new System.Drawing.Size(100, 21);
             this.tbResultBDAddr.TabIndex = 38;
+            this.tbResultBDAddr.Visible = false;
             // 
             // tbResultFWMode
             // 
@@ -435,6 +457,7 @@
             this.tbResultFWMode.Name = "tbResultFWMode";
             this.tbResultFWMode.Size = new System.Drawing.Size(100, 21);
             this.tbResultFWMode.TabIndex = 39;
+            this.tbResultFWMode.Visible = false;
             // 
             // tbResultRWSStat
             // 
@@ -442,6 +465,7 @@
             this.tbResultRWSStat.Name = "tbResultRWSStat";
             this.tbResultRWSStat.Size = new System.Drawing.Size(100, 21);
             this.tbResultRWSStat.TabIndex = 40;
+            this.tbResultRWSStat.Visible = false;
             // 
             // tbResultBATStatus
             // 
@@ -449,6 +473,7 @@
             this.tbResultBATStatus.Name = "tbResultBATStatus";
             this.tbResultBATStatus.Size = new System.Drawing.Size(100, 21);
             this.tbResultBATStatus.TabIndex = 41;
+            this.tbResultBATStatus.Visible = false;
             // 
             // btnSetUserMode
             // 
@@ -458,6 +483,7 @@
             this.btnSetUserMode.TabIndex = 45;
             this.btnSetUserMode.Text = "Set Normal";
             this.btnSetUserMode.UseVisualStyleBackColor = true;
+            this.btnSetUserMode.Visible = false;
             this.btnSetUserMode.Click += new System.EventHandler(this.btnSetUserMode_Click);
             // 
             // btnSetFactorymode
@@ -468,6 +494,7 @@
             this.btnSetFactorymode.TabIndex = 47;
             this.btnSetFactorymode.Text = "Set Factory";
             this.btnSetFactorymode.UseVisualStyleBackColor = true;
+            this.btnSetFactorymode.Visible = false;
             this.btnSetFactorymode.Click += new System.EventHandler(this.btnSetFactorymode_Click);
             // 
             // btnFactoryReset
@@ -478,6 +505,7 @@
             this.btnFactoryReset.TabIndex = 48;
             this.btnFactoryReset.Text = "Factory Reset";
             this.btnFactoryReset.UseVisualStyleBackColor = true;
+            this.btnFactoryReset.Visible = false;
             this.btnFactoryReset.Click += new System.EventHandler(this.btnFactoryReset_Click);
             // 
             // btnEnterDUTMode
@@ -488,6 +516,7 @@
             this.btnEnterDUTMode.TabIndex = 49;
             this.btnEnterDUTMode.Text = "DUT Mode";
             this.btnEnterDUTMode.UseVisualStyleBackColor = true;
+            this.btnEnterDUTMode.Visible = false;
             this.btnEnterDUTMode.Click += new System.EventHandler(this.btnEnterDUTMode_Click);
             // 
             // btnGetBatlevel
@@ -498,6 +527,7 @@
             this.btnGetBatlevel.TabIndex = 52;
             this.btnGetBatlevel.Text = "Get BAT Level";
             this.btnGetBatlevel.UseVisualStyleBackColor = true;
+            this.btnGetBatlevel.Visible = false;
             this.btnGetBatlevel.Click += new System.EventHandler(this.btnGetBatlevel_Click);
             // 
             // btnTest1
@@ -508,6 +538,7 @@
             this.btnTest1.TabIndex = 55;
             this.btnTest1.Text = "Write Color1";
             this.btnTest1.UseVisualStyleBackColor = true;
+            this.btnTest1.Visible = false;
             this.btnTest1.Click += new System.EventHandler(this.btnTest1_Click);
             // 
             // btnTest2
@@ -518,6 +549,7 @@
             this.btnTest2.TabIndex = 56;
             this.btnTest2.Text = "Write Color2";
             this.btnTest2.UseVisualStyleBackColor = true;
+            this.btnTest2.Visible = false;
             this.btnTest2.Click += new System.EventHandler(this.btnTest2_Click);
             // 
             // tb_autotest_count
@@ -528,6 +560,7 @@
             this.tb_autotest_count.Name = "tb_autotest_count";
             this.tb_autotest_count.Size = new System.Drawing.Size(100, 93);
             this.tb_autotest_count.TabIndex = 57;
+            this.tb_autotest_count.Visible = false;
             // 
             // btnTest3
             // 
@@ -537,6 +570,7 @@
             this.btnTest3.TabIndex = 58;
             this.btnTest3.Text = "Write Color3";
             this.btnTest3.UseVisualStyleBackColor = true;
+            this.btnTest3.Visible = false;
             this.btnTest3.Click += new System.EventHandler(this.btnTest3_Click);
             // 
             // button2
@@ -547,6 +581,7 @@
             this.button2.TabIndex = 61;
             this.button2.Text = "Write Color3_R";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
@@ -557,6 +592,7 @@
             this.button3.TabIndex = 60;
             this.button3.Text = "Write Color2_R";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Visible = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
@@ -567,6 +603,7 @@
             this.button4.TabIndex = 59;
             this.button4.Text = "Write Color1_R";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Visible = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // btnFwVersion
@@ -577,6 +614,7 @@
             this.btnFwVersion.TabIndex = 64;
             this.btnFwVersion.Text = "Version Read";
             this.btnFwVersion.UseVisualStyleBackColor = true;
+            this.btnFwVersion.Visible = false;
             this.btnFwVersion.Click += new System.EventHandler(this.btnVersionRead_Click);
             // 
             // btnPairingmode
@@ -587,6 +625,7 @@
             this.btnPairingmode.TabIndex = 63;
             this.btnPairingmode.Text = "Pairing mode";
             this.btnPairingmode.UseVisualStyleBackColor = true;
+            this.btnPairingmode.Visible = false;
             this.btnPairingmode.Click += new System.EventHandler(this.btnPairingmode_Click);
             // 
             // btnToneGenerator
@@ -597,6 +636,7 @@
             this.btnToneGenerator.TabIndex = 62;
             this.btnToneGenerator.Text = "Tone Gen";
             this.btnToneGenerator.UseVisualStyleBackColor = true;
+            this.btnToneGenerator.Visible = false;
             this.btnToneGenerator.Click += new System.EventHandler(this.btnToneGenerator_Click);
             // 
             // btnSetIGDownloadmode
@@ -607,13 +647,14 @@
             this.btnSetIGDownloadmode.TabIndex = 65;
             this.btnSetIGDownloadmode.Text = "Set IG mode";
             this.btnSetIGDownloadmode.UseVisualStyleBackColor = true;
+            this.btnSetIGDownloadmode.Visible = false;
             this.btnSetIGDownloadmode.Click += new System.EventHandler(this.btnSetIGDownloadmode_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1504, 880);
+            this.ClientSize = new System.Drawing.Size(1101, 880);
             this.Controls.Add(this.btnSetIGDownloadmode);
             this.Controls.Add(this.btnFwVersion);
             this.Controls.Add(this.btnPairingmode);
