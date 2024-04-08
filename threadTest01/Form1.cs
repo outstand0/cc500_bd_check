@@ -108,6 +108,7 @@ namespace threadTest01
         public static bool flag_CheckDefaultBDPri = false;
         public static bool flag_CheckDefaultBDSec = false;
         public static bool flag_check_LRPairing = false;
+        public static bool flag_CheckFwVersion = false;
         public static bool flag_CheckIgVersion = false;
         public static bool flag_CheckFactoryReset = false;
         public static bool flag_WriteUserMode = false;
@@ -725,7 +726,7 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                     }
                     else if (a.Data[8] == 0x01 && a.Data[9] == 0x0A && flag_WriteUserMode == true) // Write User Mode
                     {
-                        if (a.Data[10] == 0x00)
+                       if (a.Data[10] == 0x00)
                         {
                             WriteUserMode = true;
                             dutWriteMode = "0";
@@ -750,7 +751,7 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                             flag_WriteUserMode = false;
                         }                        
                     }
-                    else if (a.Data[9] == 0x0A && a.Data[10] == 0X01 && flag_CheckUserMode == true)
+                    else if (a.Data[9] == 0x0A && a.Data[10] == 0x01 && flag_CheckUserMode == true)
                     {
                         if (a.Data[12] == 0x00)
                         {
@@ -777,16 +778,18 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                             flag_CheckUserMode = false;
                         }
                     }
-                    else if (a.Data[9] == 0x0A && a.Data[10] == 0x02)
-                    {
+                    else if (a.Data[9] == 0x0A && a.Data[10] == 0x02 && flag_CheckFwVersion == true)
+                    {                        
                         if (!CheckFwVersion)
                         {
                             dutFullVersion = Convert.ToString(a.Data[12] + "." + Convert.ToString((a.Data[13] / 16) * 10 + a.Data[13] % 16));
                             CheckFwVersion = true;
+                            flag_CheckFwVersion = false;
                         }
                         else
                         {
                             CheckFwVersion = false;
+                            flag_CheckFwVersion = false;
                         }
                     }
                     else if (a.Data[8] == 0x01 && a.Data[9] == 0x11 && flag_CheckFactoryReset == true)
@@ -805,7 +808,7 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                     }
                     else if (a.Data[9] == 0x0A && a.Data[10] == 0x04 && flag_CheckIgVersion == true)
                     {
-                        if(!CheckIgVersion)
+                        if (!CheckIgVersion)
                         {
                             dutIGVersion = (a.Data[12].ToString("X") + "" + a.Data[13].ToString("X") + "" + a.Data[14].ToString("X") + "" + a.Data[15].ToString("X"));
                             
@@ -1401,7 +1404,8 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                 if (result == 1) // flag_ng == 1
                 {
                     // write log
-                    writeLog(bd, dutModelNamePri, dutModelNameSec, dutFullVersionPri, dutFullVersionSec, dutBatLevelPri, dutBatLevelSec, dutCheckColorPri, dutCheckColorSec, dutAncWritePri, dutAncWriteSec, "FAIL", typeNg);
+                    //writeLog(bd, dutModelNamePri, dutModelNameSec, dutFullVersionPri, dutFullVersionSec, dutBatLevelPri, dutBatLevelSec, dutCheckColorPri, dutCheckColorSec, dutAncWritePri, dutAncWriteSec, "FAIL", typeNg);
+                    writeLog(bd, dutModelName,  dutBatLevel, dutFullVersion, dutIGVersion, dutWriteMode, dutCheckMode, "FAIL", typeNg);
 
                     totalCount++;
                     failCount++;
@@ -1418,7 +1422,8 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                 else
                 {
                     // write log
-                    writeLog(bd, dutModelNamePri, dutModelNameSec, dutFullVersionPri, dutFullVersionSec, dutBatLevelPri, dutBatLevelSec, dutCheckColorPri, dutCheckColorSec, dutAncWritePri, dutAncWriteSec, "PASS", "-");
+                    //writeLog(bd, dutModelNamePri, dutModelNameSec, dutFullVersionPri, dutFullVersionSec, dutBatLevelPri, dutBatLevelSec, dutCheckColorPri, dutCheckColorSec, dutAncWritePri, dutAncWriteSec, "PASS", "-");
+                    writeLog(bd, dutModelName, dutBatLevel, dutFullVersion, dutIGVersion, dutWriteMode, dutCheckMode, "PASS", "-");
 
                     totalCount++;
                     passCount++;
@@ -1756,7 +1761,7 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
 #endregion
 
 #region log_relative
-        private void writeLog(string bd, string mnpri, string mnsec, string verpri, string versec, string batpri, string batsec, string colorpri, string colorsec, string ancpri, string ancsec, string result, string faildesc)
+        private void writeLog(string bd, string modelname, string batlevel, string fwver, string igver, string writemode, string checkmode, string result, string faildesc)
         {
 #if true
             string date = DateTime.Now.ToString("yy-MM-dd HH:mm:ss");
@@ -1765,7 +1770,7 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
             StreamWriter sw = new StreamWriter(pathLogFile, true, Encoding.Unicode);
 
             // write measured data
-            sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}", date, bd, mnpri, mnsec, verpri, versec, batpri, batsec, colorpri, colorsec, ancpri, ancsec, result, faildesc);
+            sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}", date, bd, modelname, batlevel, fwver, igver, writemode, checkmode, result, faildesc);
             // close stream
             sw.Close();
 #endif
@@ -1807,7 +1812,7 @@ USB_DEVICE_DATA_RSP_HS_VERSION_INFO 4
                 StreamWriter sw = new StreamWriter(pathLogFile, true, Encoding.Unicode);
 
                 // write basic data (index)
-                sw.WriteLine("date\tbd\tmodelname_pri\tmodelname_sec\tver_pri\tver_sec\tbat_pri\tbat_sec\tcolor_pri\tcolor_sec\tanc_pri\tanc_sec\tresult\tng description");
+                sw.WriteLine("date\tbd\tmodelname\tbat_level\tfw_ver\tig_ver\twrite_mode\tcheck_mode\tresult\tng description");
 #if false
                 sw.WriteLine("--" + "," + "--" + "," + "--" + "," + "--");
 #endif
@@ -2832,9 +2837,7 @@ END
             else if (seqName == "CHECK_BD_DEFAULT_FOR_CHECK") { retVal = procTestCheckBdDefaultForCheck(index); }
             else if (seqName == "CHECK_BD_DEFAULT_PRI") { retVal = procTestCheckBdDefaultForCheckPri(index); }
             else if (seqName == "CHECK_BD_DEFAULT_SEC") { retVal = procTestCheckBdDefaultForCheckSec(index); }
-            else if (seqName == "CHECK_BD_RANGE") { retVal = procTestCheckBdRange(index); }
-            else if (seqName == "CHECK_BD_RANGE_PRI") { retVal = procTestCheckBdRangePri(index); }
-            else if (seqName == "CHECK_BD_RANGE_SEC") { retVal = procTestCheckBdRangeSec(index); }
+            else if (seqName == "CHECK_BD_RANGE") { retVal = procTestCheckBdRange(index); }            
             else if (seqName == "CHECK_BAT_LEVEL") { retVal = procTestCheckBatLevel(index); }
             else if (seqName == "CHECK_MODEL_NAME") { retVal = procTestCheckModelName(index); }
             else if (seqName == "CHECK_MODEL_NAME_PRI") { retVal = procTestCheckModelNamePri(index); }
@@ -3662,83 +3665,7 @@ END
 
         }
 #if ATH_CKS30TW || ATH_CKS50TW2
-        private bool procTestCheckBdRangePri(int index) // check bd range (against config)
-        {
-            int flag_ng = 0;
-            int Count = 20;
-
-            try
-            {
-                // split bd string
-                tempNap = Form1.dutBdNapPri;
-                tempUap = Form1.dutBdUapPri;
-                tempLap = Form1.dutBdLapPri;
-
-                // set test value (nothing)
-                mainForm.gTestValue[index] = Form1.dutFullBdAddressPri;
-            }
-            catch
-            {
-                flag_ng = 1;
-            }
-            finally
-            {
-
-                // split bd string
-                tempNap = Form1.dutBdNapPri;
-                tempUap = Form1.dutBdUapPri;
-                tempLap = Form1.dutBdLapPri;
-
-                // set test value (nothing)
-                mainForm.gTestValue[index] = Form1.dutFullBdAddressPri;
-
-                if (!validateBd(tempNap, tempUap, tempLap, "check_range")) { flag_ng = 1; }
-            }
-
-            if (flag_ng == 1)
-            {
-                mainForm.gNgType[index] = "Check BD Range Fail";
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        private bool procTestCheckBdRangeSec(int index) // check bd range (against config)
-        {            
-
-            int flag_ng = 0;
-
-            try
-            {
-                // split bd string
-                tempNap = Form1.dutBdNapSec;
-                tempUap = Form1.dutBdUapSec;
-                tempLap = Form1.dutBdLapSec;
-
-                // set test value (nothing)
-                mainForm.gTestValue[index] = Form1.dutFullBdAddressSec;
-            }
-            catch
-            {
-                flag_ng = 1;
-            }
-            finally
-            {
-                if (!validateBd(tempNap, tempUap, tempLap, "check_range")) { flag_ng = 1; }
-            }
-
-            if (flag_ng == 1)
-            {
-                mainForm.gNgType[index] = "Check BD Range Fail";
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+    
         private bool procTestCheckBdDefaultForCheckPri(int index) // check bd range (against config)
         {
             Form1.flag_CheckDefaultBDPri = true;
@@ -3845,7 +3772,7 @@ END
         {
             int flag_ng = 0;
             int Count = 20;
-
+            Thread.Sleep(300);
             try
             {
                 Form1.dev.StartAsyncRead();
@@ -3861,6 +3788,7 @@ END
                 Buffer.BlockCopy(cmdData, 0, data, 4, Buffer.ByteLength(cmdData));
 
                 Form1.dev.Write(data);
+                Thread.Sleep(300);
 
                 while (Count > 0)
                 {
@@ -3946,7 +3874,7 @@ END
         {
             int flag_ng = 0;
             int Count = 20;
-
+            Thread.Sleep(300);
             try
             {
                 Form1.dev.StartAsyncRead();
@@ -4317,8 +4245,8 @@ END
         {            
             int flag_ng = 0;
             int Count = 20;
-
-            Form1.flag_CheckUserMode = true;
+            Thread.Sleep(300);
+            Form1.flag_CheckFwVersion = true;
 
             try
             {
@@ -4387,7 +4315,7 @@ END
 
             int flag_ng = 0;
             int Count = 20;
-
+            Thread.Sleep(300);
             try
             {
                 Form1.dev.StartAsyncRead();

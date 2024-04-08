@@ -21,3 +21,6 @@ D:\model\Tool_Source\ATH-CKS50TW2\_PRODUCT\ATH-CKS50TW2_BD_CHECK_240220\USBInter
 D:\model\Tool_Source\ATH-CC500BT2\1.PRODUCT\ATH-CKS50TW2_BD_CHECK_240222\USBInterface\bin\Release\USBInterface.dll
 D:\model\Tool_Source\ATH-CC500BT2\1.PRODUCT\ATH-CKS50TW2_BD_CHECK_240222\USBInterface\obj\Release\USBInterface.csprojResolveAssemblyReference.cache
 D:\model\Tool_Source\ATH-CC500BT2\1.PRODUCT\ATH-CKS50TW2_BD_CHECK_240222\USBInterface\obj\Release\USBInterface.dll
+D:\model\Tool_Source\Git_test\cc500_bd_check\USBInterface\bin\Release\USBInterface.dll
+D:\model\Tool_Source\Git_test\cc500_bd_check\USBInterface\obj\Release\USBInterface.csprojResolveAssemblyReference.cache
+D:\model\Tool_Source\Git_test\cc500_bd_check\USBInterface\obj\Release\USBInterface.dll

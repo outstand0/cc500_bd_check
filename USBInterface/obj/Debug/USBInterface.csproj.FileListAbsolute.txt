@@ -99,3 +99,8 @@ D:\model\Tool_Source\ATH-CC500BT2\1.PRODUCT\ATH-CC500BT2_BD_CHECK_240222\USBInte
 D:\model\Tool_Source\ATH-CC500BT2\1.PRODUCT\ATH-CC500BT2_BD_CHECK_240222\USBInterface\obj\Debug\USBInterface.csprojResolveAssemblyReference.cache
 D:\model\Tool_Source\ATH-CC500BT2\1.PRODUCT\ATH-CC500BT2_BD_CHECK_240222\USBInterface\obj\Debug\USBInterface.dll
 D:\model\Tool_Source\ATH-CC500BT2\1.PRODUCT\ATH-CC500BT2_BD_CHECK_240222\USBInterface\obj\Debug\USBInterface.pdb
+D:\model\Tool_Source\Git_test\cc500_bd_check\USBInterface\bin\Debug\USBInterface.dll
+D:\model\Tool_Source\Git_test\cc500_bd_check\USBInterface\bin\Debug\USBInterface.pdb
+D:\model\Tool_Source\Git_test\cc500_bd_check\USBInterface\obj\Debug\USBInterface.csprojResolveAssemblyReference.cache
+D:\model\Tool_Source\Git_test\cc500_bd_check\USBInterface\obj\Debug\USBInterface.dll
+D:\model\Tool_Source\Git_test\cc500_bd_check\USBInterface\obj\Debug\USBInterface.pdb
